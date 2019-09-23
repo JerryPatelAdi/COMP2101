@@ -16,15 +16,16 @@ title="Overlord"
 myname=$USER
 hostname=$(hostname)
 
-#adding time and day of the weekday
-date_time=$(date +"%H:%M %p")
-
 ###############
 # Main        #
 ###############
+
+#date and time as per HH:MM formatted
+date_time=$(date +"%H:%M %p")
+
 cat <<EOF
 
 Welcome to planet $hostname, "$title $myname!"
-It is $date_time on weekday
+It is a $date_time on weekday
 
 EOF
