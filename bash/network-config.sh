@@ -29,11 +29,10 @@
 # finding external information relies on curl being installed and relies on live internet connection
 # awk is used to extract only the data we want displayed from the commands which produce extra data
 # this command is ugly done this way, so generating the output data into variables is recommended to make the script more readable.
-# e.g. 
+# e.g.
 #   interface_name=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
 
 # definfing variables
-
 hostn=$(hostname)
 lanadd_sec=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
 lanadd=$(ip a s $lanadd_sec |awk '/inet /{gsub(/\/.*/,"");print $2}')
@@ -44,8 +43,12 @@ ext_ip=$(curl -s icanhazip.com)
 ext_name_sub=$(curl -s icanhazip.com)
 ext_name=$(getent hosts $ext_name_sub | awk '{print $2}')
 
+#
+
+cat <<EOF
 Hostname        : $hostn
 LAN Address     : $lanadd
 LAN Hostname    : $lanhost
 External IP     : $ext_ip
 External Name   : $ext_name
+EOF
