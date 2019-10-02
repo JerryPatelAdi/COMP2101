@@ -43,8 +43,6 @@ ext_ip=$(curl -s icanhazip.com)
 ext_name_sub=$(curl -s icanhazip.com)
 ext_name=$(getent hosts $ext_name_sub | awk '{print $2}')
 
-#
-
 cat <<EOF
 Hostname        : $hostn
 LAN Address     : $lanadd
@@ -52,3 +50,15 @@ LAN Hostname    : $lanhost
 External IP     : $ext_ip
 External Name   : $ext_name
 EOF
+
+#adding router address and router name
+routeripaddr=$(ip r | grep default | awk '{print $3}')
+routername=$(iwgetid -r)
+
+cat <<EOF
+
+Route IP Address : $routeripaddr
+Router Name : $routername
+EOF
+
+#adding network name

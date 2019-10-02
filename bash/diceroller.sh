@@ -16,11 +16,11 @@ Rolling a pair of standard dice:
 $(( RANDOM % 6 + 1)), $(( RANDOM % 6 + 1 )) rolled
 "
 echo "
-Rolling a pair of standard dice:
+Rolling 5 times of six-sided standard dice:
 $(( RANDOM % 6 + 1)), $(( RANDOM % 6 + 1)), $(( RANDOM % 6 + 1)), $(( RANDOM % 6 + 1)), $(( RANDOM % 6 + 1)) rolled
 "
 echo "
-Rolling a pair of standard dice:
+Rolling dice of 20-sided standard dice:
 $(( RANDOM % 20 + 1)) rolled
 "
 exit
