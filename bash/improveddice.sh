@@ -28,8 +28,7 @@ die2=$(( RANDOM % $range + $bias))
 sum=$(( die1 + die2 ))
 
 #Average of the dice
-avg=$(((13 + 1) / 2))
-final_avg=($avg * 1)
+final_avg=$(($sum / 2))
 
 # display the results
 echo "The sum for the rolled $die1, $die2 is $sum"
