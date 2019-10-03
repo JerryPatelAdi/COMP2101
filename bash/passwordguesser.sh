@@ -11,7 +11,7 @@
 read -p "Guess the password:" userstr
 customstr="password"
 i=1
-while [ $i -le 2 ]
+while [ $i -lt 3 ]
 do
   if [ $userstr != $customstr ]
   then
@@ -19,12 +19,12 @@ do
     echo "Ooops! Try again"
     read -p "Guess the password:" userstr
   }
-  echo "The right passwrd is $customstr"
 else
     {
-      echo "You guess the right password"
+      echo "Sucess"
       break
     }
   fi
   i=$(( $i + 1 ))
 done
+echo "The right passwrd is $customstr"

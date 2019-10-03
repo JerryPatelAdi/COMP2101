@@ -34,13 +34,18 @@
 
 # definfing variables
 hostn=$(hostname)
+
 lanadd_sec=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
-lanadd=$(ip a s $lanadd_sec |awk '/inet /{gsub(/\/.*/,"");print $2}')
+lanadd=$(ip a s $lanadd_sec | awk '/inet /{gsub(/\/.*/,"");print $2}')
+
 lanhost2=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
 lanhost1=$(ip a s $lanhost2)
-lanhost=$(getent hosts $lanhost1 | awk 'FN=3{print $2}'#awk '/inet /{gsub(/\/.*/,"");print $2}' | awk '{print $2}')
+lanhost=$(getent hosts $lanhost1 | awk 'NR==3{print $2}')
+
 ext_ip=$(curl -s icanhazip.com)
+
 ext_name_sub=$(curl -s icanhazip.com)
+
 ext_name=$(getent hosts $ext_name_sub | awk '{print $2}')
 
 cat <<EOF
@@ -52,8 +57,12 @@ External Name   : $ext_name
 EOF
 
 #adding router address and router name
-routeripaddr=$(ip r | grep default | awk '{print $3}')
-routername=$(iwgetid -r)
+routeripaddr=$(ip r | grep default | awk 'NR==1{print $3}')
+routername=$(getent hosts | awk 'NR==4{print $2}')
+
+#adding network address and router Name
+networkaddr=$(ip r | awk 'NR==3{print $1}')
+networkname=$(getent hosts | awk 'NR==6{print $2}')
 
 cat <<EOF
 
@@ -61,4 +70,9 @@ Route IP Address : $routeripaddr
 Router Name : $routername
 EOF
 
+cat <<EOF
+
+Network IP Address : $networkaddr
+Network Name : $networkname
+EOF
 #adding network name
