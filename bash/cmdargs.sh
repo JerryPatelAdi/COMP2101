@@ -16,7 +16,35 @@ while [ $# -gt 0 ]; do
 #             save the debug level in a variable to be available to use later in the script
 #             display an error if the user gave the -d option without a number after it
 # TASK 3: put anything that wasn't recognized on the command line into a variable for use later in the script
-  echo "Processing '$1'."
+  case "$1" in
+    -h)
+        echo "$1 is used for help"
+        ;;
+    -v)
+        echo "$1 is used for verberose output"
+        ;;
+
+    -d)
+      if [[ $2 == +([0-9]) ]]; then
+        echo "$1 used for dubugging and its level"
+        debugl=$2
+        shift
+      else
+        {
+          echo "Error! Should be numeric Value"
+        }
+        if [ -z $2 ]; then
+          echo "Error"
+        fi
+      fi
+        ;;
+
+#storing extra command line into script
+     *)
+        Other=$1
+        echo "$1 is unrecognized argument"
+        ;;
+  esac
 
   # each time through the loop, shift the arguments left
   # this decrements the argument count for us
