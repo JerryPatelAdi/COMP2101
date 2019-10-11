@@ -33,9 +33,9 @@ while [ $# -gt 0 ]; do
         {
           echo "Error! Should be numeric Value"
         }
-        if [ -z $2 ]; then
-          echo "Error"
-        fi
+        #if [ -z $2 ]; then
+        #  echo "Error"
+        #fi
       fi
         ;;
 
