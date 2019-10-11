@@ -40,8 +40,10 @@ lanadd=$(ip a s $lanadd_sec | awk '/inet /{gsub(/\/.*/,"");print $2}')
 
 lanhost2=$(ip a |awk '/: e/{gsub(/:/,"");print $2}')
 lanhost1=$(ip a s $lanhost2)
-lanhost=$(getent hosts $lanhost1 | awk 'NR==3{print $2}')
-#lanhost=$(getent hosts $lanhost1 | awk '/inet /{gsub(/\/.*/,"");print $2}')
+#lanhost=$(getent hosts $lanhost1 | awk 'NR==3{print $2}')
+#lanhost=$(getent hosts $lanhost1 | awk '/inet /{gsub(/\/.*/,"")}')
+#lanhost=$(getent hosts $lanhost1 | cut -d ' ' -f 3)  #awk -F '[: ]+' '{print $1})
+lanhost=$(getent hosts $lanhost1 | tr -s " " | cut -d ' ' -f2 | awk 'NR==3{print $1}')
 
 ext_ip=$(curl -s icanhazip.com)
 
@@ -58,11 +60,11 @@ External Name   : $ext_name
 EOF
 
 #adding router address and router name
-routeripaddr=$(ip r | grep default | awk 'NR==1{print $3}')
+routeripaddr=$(ip r | grep default | awk '{print $3}')
 routername=$(getent hosts | awk 'NR==4{print $2}')
 
 #adding network address and router Name
-networkaddr=$(ip r | awk 'NR==3{print $1}')
+networkaddr=$(ip r | awk -F '[/ ]+' 'NR==3{print $1}')
 networkname=$(getent networks | grep 192 | awk '{print $1}')
 
 cat <<EOF
