@@ -9,12 +9,24 @@
 
 # Task: Explain in a comment how the line with the word moose in it works.
 
+trap StartAgain SIGINT
+trap Surprise SIGQUIT
+
 #### Variables
 programName="$(basename $0)" # used by error_functions.sh
 sleepTime=1 # delay used by sleeptime
 numberOfSleeps=10 # how many sleeps to wait for before quitting for inactivity
 
 #### Functions
+function StartAgain {
+  echo "Oooops!!! you can not interrupt the count"
+  sleepCount=$numberOfSleeps+1
+}
+
+function Surprise {
+  echo "Ahhhaaa!! you found secret for quiting the loop"
+  exit
+}
 
 # This function will send an error message to stderr
 # Usage:
@@ -32,6 +44,7 @@ function error-exit {
         error-message "$1"
         exit "${2:-1}"
 }
+
 function usage {
         cat <<EOF
 Usage: ${programName} [-h|--help ] [-w|--waittime waittime] [-n|--waitcount waitcount]

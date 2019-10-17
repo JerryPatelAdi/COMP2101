@@ -45,7 +45,7 @@ while [ $# -gt 0 ]; do
         echo "$1 is unrecognized argument"
         ;;
   esac
-
+ud
   # each time through the loop, shift the arguments left
   # this decrements the argument count for us
   shift
