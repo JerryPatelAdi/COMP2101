@@ -33,6 +33,9 @@ function Surprise {
 #   error-message ["some text to print to stderr"]
 #
 function error-message {
+
+        #here it will print out the programname with first command line argument and moose printing statment
+        #after that >&2 will send the output of echo to standard error instead of standard output.D
         echo "${programName}: ${1:-Unknown Error - a moose bit my sister once...}" >&2
 }
 
