@@ -1,0 +1,1 @@
+﻿gwmi -class win32_product | Sort-Object -Property InstallDate | Format-table -Property SoftwareName,Vendor,Version,InstallDate
