@@ -1,30 +1,34 @@
-write-output 
+Write-Output "Operating System Info"
 gwmi -class win32_operatingsystem | format-list -Property PSComputerName,Version
-
+Write-Output "Computer System Info"
 gwmi -class win32_computersystem | format-list -property Description
-
+Write-Output "Windows Processor Info"
 gwmi -class win32_processor | format-list -property L2CacheSize,L3CacheSize,L3CacheSpeed
 
+Write-Output "Windows Physical Memory Info"
 $totalcapacity = 0
 get-wmiobject -class win32_physicalmemory |
 foreach {
  new-object -TypeName psobject -Property @{
- Manufacturer = $_.manufacturer
- "Speed(MHz)" = $_.speed
  "Size(MB)" = $_.capacity/1mb
  Bank = $_.banklabel
  Slot = $_.devicelocator
  }
  $totalcapacity += $_.capacity/1mb
 } |
-ft  Manufacturer, "Size(MB)", "Speed(MHz)", Bank, Slot, Description
+ft "Size(MB)", Bank, Slot
 "Total RAM: ${totalcapacity}MB "
 
-gwmi -class win32_diskdrive | fl -Property Manufacturer,Model,{$_.Size/1mb}
-gwmi -class win32_logicaldisk |
-foreach{
-new-object -typename psobject -property @{
-FreeSpace = $_.FreeSpace/1mb}
-} | fl
+Write-Output "Disk Info"
+gwmi -class win32_logicaldisk | foreach {$logdisk=$_
+gwmi -class win32_diskpartition | foreach{
+$more = $_.GetRelated("Win32_diskdrive")
+New-Object PSObject -Property @{
+Manufacturer=$more.Manufacturer
+Model=$more.Model
+"Size(GB)"=$more.Size/1gb -as [int]
+"FreeSpace(GB)"=$more.FreeSpace/1gb -as [int]
+}}} | ft -property Manufacturer,Model, "Size(GB)","FreeSpace(GB)"
 
-gwmi -Class win32_videocontroller | fl -Property Description,VideoModeDescription
+Write-Output "Video Info"
+get-ciminstance -Class cim_videocontroller | fl -Property Description,CurrentHorizontalResolution,CurrentVerticalResolution
